@@ -1,0 +1,8 @@
+--Command to create a CI
+docker run --rm -e KUBE_USERNAME=xxxxx -e KUBE_PASSWD=xxxxxxxx -e CI_NAME=test-ci -e ImageName=notouchonboarding/jenkins -e ImageTag=xxxxxxx notouchonboarding/helm /root/create_ci.sh
+
+--Command to check the status of the CI
+docker run --rm -e KUBE_USERNAME=xxxxx -e KUBE_PASSWD=xxxxxxxx -e CI_NAME=test-ci notouchonboarding/helm /root/check_ci.sh
+
+--Command to delete the CI
+docker run --rm -e KUBE_USERNAME=xxxxx -e KUBE_PASSWD=xxxxxxxx -e CI_NAME=test-ci notouchonboarding/helm /root/delete_ci.sh
