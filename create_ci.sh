@@ -8,7 +8,7 @@ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin
 
 if [ -z "$ImageName" ]
 then
-  ImageName = "notouchonboading/jenkins"
+  ImageName = "somashekar10/jenkins"
 fi
 
 if [ -z "$ImageTag" ]
@@ -16,6 +16,22 @@ then
   ImageTag = "latest"
 fi
 
-/linux-amd64/helm install --set-string Master.Image=${ImageName} --set-string Master.ImageTag=${ImageTag} --name ${CI_NAME} stable/jenkins > /dev/null 2>&1
+echo "
+Master:
+  Name: jenkins-master
+  # Environment variables that get added to the init container (useful for e.g. http_proxy)
+  ContainerEnv:
+    - name: GIT_ORG
+      value: \"${GIT_ORG}\"
+    - name: GIT_USER
+      value: \"${GIT_USER}\"
+    - name: GIT_TOKEN
+      value: \"${GIT_TOKEN}\"
+  ServiceType: LoadBalancer
+  LoadBalancerIP: \"${LB_IP}\"
+  InstallPlugins:
+" > /tmp/values.yaml
+
+/linux-amd64/helm install -f /tmp/values.yaml --set-string Master.Image=${ImageName} --set-string Master.ImageTag=${ImageTag} --name ${CI_NAME} stable/jenkins > /dev/null 2>&1
 
 #printf $(kubectl get secret --namespace default ${CI_NAME}-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
