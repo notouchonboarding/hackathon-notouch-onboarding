@@ -6,4 +6,4 @@ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin
 
 /linux-amd64/helm init > /dev/null 2>&1
 
-/linux-amd64/helm delete ${CI_NAME} > /dev/null 2>&1
+/linux-amd64/helm del --purge ${CI_NAME} > /dev/null 2>&1
