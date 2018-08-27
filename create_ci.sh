@@ -21,6 +21,12 @@ Master:
   Name: jenkins-master
   # Environment variables that get added to the init container (useful for e.g. http_proxy)
   ContainerEnv:
+    - name: CLIENT_ID
+      value: \"${CLIENT_ID}\"
+    - name: CLIENT_SECRET
+      value: \"${CLIENT_SECRET}\"
+    - name: LB_IP
+      value: \"${LB_IP}\"
     - name: GIT_ORG
       value: \"${GIT_ORG}\"
     - name: GIT_USER
